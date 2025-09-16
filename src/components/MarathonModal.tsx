@@ -187,16 +187,18 @@ export default function MarathonModal({ opened, onClose }: MarathonModalProps) {
               mantineForm.setFieldValue("haveCoupon", !haveCoupon);
             }}
           />
-          {/* จะต้องแสดงเมื่อกด เลือก I have coupon เท่านั้น*/}
-          <TextInput
-            label="Coupon Code"
-            value={couponCode}
-            onChange={(e) => {
-              setCouponCode(e.currentTarget.value);
-              mantineForm.setFieldValue("couponCode", e.currentTarget.value);
-            }}
-            error={mantineForm.errors.couponCode}
-          />
+          {haveCoupon && (
+            <TextInput
+              hidden={haveCoupon}
+              label="Coupon Code"
+              value={couponCode}
+              onChange={(e) => {
+                setCouponCode(e.currentTarget.value);
+                mantineForm.setFieldValue("couponCode", e.currentTarget.value);
+              }}
+              error={mantineForm.errors.couponCode}
+            />
+          )}
           {/* แสดงราคาการสมัครงานวิ่งตามแผนที่เลือก  */}
           <Text>Total Payment : {total} THB</Text>
           <Divider my="xs" variant="dashed" />
