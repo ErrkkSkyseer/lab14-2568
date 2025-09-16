@@ -15,15 +15,29 @@ export const marathonSchema = z
     email: z.email(),
     haveCoupon: z.boolean().default(false),
     couponCode: z.string().optional(),
+    password: z
+      .string()
+      .min(6, "Password must contain at least 6 characters")
+      .max(12, "Password must not exceed 12 characters"),
+    passwordAgain: z.string(),
   })
   .refine(
     (data) => {
       if (!data.haveCoupon) return true;
-      return data.couponCode?.trim() === "CMU2025";
+      else return data.couponCode?.trim() === "CMU2025";
     },
     {
       message: "Invalid coupon code",
       path: ["couponCode"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.passwordAgain === data.password) return true;
+    },
+    {
+      message: "Password does not match",
+      path: ["passwordAgain"],
     }
   );
 export type MarathonForm = z.infer<typeof marathonSchema>;
